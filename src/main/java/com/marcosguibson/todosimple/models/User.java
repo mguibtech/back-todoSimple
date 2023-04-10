@@ -15,6 +15,9 @@ import javax.validation.constraints.Size;
 import org.hibernate.annotations.NotFound;
 import org.springframework.lang.NonNull;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
+
 @Entity
 @Table(name = User.TABLE_NAME)
 // Anotacoes do spring
@@ -39,6 +42,7 @@ public class User {
   @Size(groups = CreateUser.class, min = 2, max = 100)
   private String username;
 
+  @JsonProperty(access = Access.WRITE_ONLY) 
   @Column(name = "password", length = 60, nullable = false)
   @NotNull(groups = { CreateUser.class, UpdateUser.class })
   @NotEmpty(groups = { CreateUser.class, UpdateUser.class })
