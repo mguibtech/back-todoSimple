@@ -10,18 +10,19 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = Task.TABLE_NAME)
-public class Task { 
+public class Task {
   public static final String TABLE_NAME = "task";
 
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id", unique = true)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
   @ManyToOne
@@ -29,10 +30,10 @@ public class Task {
   private User user;
 
   @Column(name = "description", length = 255, nullable = false)
-  @NotNull
-  @NotEmpty
   @Size(min = 1, max = 255)
+  @NotBlank
   private String description;
+
 
 
   public Task() {
@@ -108,7 +109,5 @@ public class Task {
     result = prime * result + ((this.id == null) ? 0 : this.id.hashCode());
     return result;
   }
-  
-
 
 }
