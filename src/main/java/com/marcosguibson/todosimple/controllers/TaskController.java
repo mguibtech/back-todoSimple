@@ -2,6 +2,7 @@ package com.marcosguibson.todosimple.controllers;
 
 import com.marcosguibson.todosimple.models.Task;
 import com.marcosguibson.todosimple.services.TaskService;
+import com.marcosguibson.todosimple.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -18,6 +19,8 @@ import java.util.List;
 public class TaskController {
     @Autowired
     private TaskService taskService;
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/{id}")
     public ResponseEntity<Task> findById(@PathVariable Long id){
@@ -40,7 +43,7 @@ public class TaskController {
         obj = this.taskService.update((obj));
         return ResponseEntity.noContent().build();
     }
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id){
         this.taskService.delete(id);
         return ResponseEntity.noContent().build();
@@ -48,6 +51,7 @@ public class TaskController {
 
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<Task>> findAllByUserId(@PathVariable Long userId){
+        this.userService.findById(userId);
         List<Task> tasks = this.taskService.findAllByUserId(userId);
         return  ResponseEntity.ok().body(tasks);
     }
