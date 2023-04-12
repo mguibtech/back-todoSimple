@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -46,6 +47,11 @@ public class TaskService {
         } catch (Exception e){
             throw new RuntimeException("Não é posível deletar pois há entidades relacionadas");
         }
+    }
+
+    public List<Task> findAllByUserId(Long userId){
+        List<Task> tasks = this.taskRepository.findByUser_Id(userId);
+        return tasks;
     }
 
 }
