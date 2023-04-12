@@ -15,6 +15,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.NotFound;
 import org.springframework.lang.NonNull;
 
@@ -59,7 +60,7 @@ public class User {
   public List<Task> getTasks() {
     return this.tasks;
   }
-
+  @JsonIgnore
   public void setTasks(List<Task> tasks) {
     this.tasks = tasks;
   }
