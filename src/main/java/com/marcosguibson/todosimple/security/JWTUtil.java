@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import net.bytebuddy.asm.Advice.Return;
 
 @Component
 public class JWTUtil {
@@ -33,6 +34,14 @@ public class JWTUtil {
   private SecretKey getKeyBySecret() {
     SecretKey key = Keys.hmacShaKeyFor(this.secret.getBytes());
     return key;
+  }
+
+  public String getUsername(String token) {
+    Claims claims = getClaims(token);
+    if(Objects.nonNull(claims)){
+      return claims.getSubject();
+    }
+    return null;      
   }
 
   public boolean isValidToken(String token) {
