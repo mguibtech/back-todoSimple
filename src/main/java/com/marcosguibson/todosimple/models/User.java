@@ -1,11 +1,17 @@
 package com.marcosguibson.todosimple.models;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,6 +28,7 @@ import org.springframework.lang.NonNull;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
+import com.marcosguibson.todosimple.models.enuns.ProfileEnum;
 
 @Entity
 @Table(name = User.TABLE_NAME)
@@ -52,17 +59,31 @@ public class User {
   @Size(groups = CreateUser.class, min = 2, max = 100)
   private String username;
 
-  @JsonProperty(access = Access.WRITE_ONLY) 
+  @JsonProperty(access = Access.WRITE_ONLY)
   @Column(name = "password", length = 60, nullable = false)
   @NotNull(groups = { CreateUser.class, UpdateUser.class })
   @NotEmpty(groups = { CreateUser.class, UpdateUser.class })
   @Size(groups = { CreateUser.class, UpdateUser.class }, min = 8, max = 60)
   private String password;
 
-
   @OneToMany(mappedBy = "user")
   @JsonProperty(access = Access.WRITE_ONLY)
   private List<Task> tasks = new ArrayList<Task>();
 
+  // *Sempre buscar perfis quando buscar usuario
+  @ElementCollection(fetch = FetchType.EAGER)
+  @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+  @CollectionTable(name = "user_profile")
+  @Column(name = "profile", nullable = false)
+  private Set<Integer> profiles = new HashSet<>();
+
+  public Set<ProfileEnum> getProfiles() {
+    return this.profiles.stream().map(x -> ProfileEnum.toEnum(x)).collect(Collectors.toSet());
+  }
+
+  public void addProfile(ProfileEnum profileEnum) {
+
+    this.profiles.add(profileEnum.getCode());
+  }
 
 }
