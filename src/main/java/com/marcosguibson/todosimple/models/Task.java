@@ -2,8 +2,6 @@ package com.marcosguibson.todosimple.models;
 
 import lombok.*;
 
-import java.util.Objects;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,17 +11,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = Task.TABLE_NAME)
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
-@EqualsAndHashCode
+@Data
 public class Task {
   public static final String TABLE_NAME = "task";
 
@@ -40,9 +34,5 @@ public class Task {
   @Size(min = 1, max = 255)
   @NotBlank
   private String description;
-
-
-
-
 
 }
