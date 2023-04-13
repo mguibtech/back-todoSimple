@@ -1,4 +1,4 @@
-const url = "http://localhost:8080/task/user/1";
+const url = "http://localhost:8080/task/user/4";
 
 function hideLoader() {
   document.getElementById("loading").style.display = "none";
@@ -6,7 +6,7 @@ function hideLoader() {
 
 function show(tasks) {
   let tab = `<thead>
-          <th scope="col">#</th>
+          <th scope="col">Id da task</th>
           <th scope="col">Description</th>
           <th scope="col">Username</th>
           <th scope="col">User Id</th>
